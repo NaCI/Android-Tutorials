@@ -1,1 +1,1 @@
-include ':daggertutorial_1'
+include ':daggertutorial_1', ':vasiliyDI', ':retrofitsample'
