@@ -1,6 +1,7 @@
 package com.example.naci.retrofitsample;
 
 import android.app.Application;
+import android.support.annotation.StringRes;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -10,10 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     private static Retrofit retrofit;
+    private static App instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        if (instance == null) {
+            instance = this;
+        }
     }
 
 
@@ -31,11 +36,15 @@ public class App extends Application {
 
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
+                    .baseUrl(Constants.ANIME_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build())
                     .build();
         }
         return retrofit;
+    }
+
+    public static String getStringById(@StringRes int id, Object... objects) {
+        return instance.getApplicationContext().getString(id, objects);
     }
 }

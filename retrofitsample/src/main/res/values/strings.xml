@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RetrofitSample</string>
+    <string name="error_input_empty">Lütfen değeri giriniz</string>
 </resources>

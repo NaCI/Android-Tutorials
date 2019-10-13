@@ -1,11 +1,9 @@
 package com.example.naci.retrofitsample.ui.main;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,48 +13,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.naci.retrofitsample.App;
 import com.example.naci.retrofitsample.R;
-import com.example.naci.retrofitsample.network.NumberDataService;
+import com.example.naci.retrofitsample.databinding.MainFragmentBinding;
 import com.example.naci.retrofitsample.network.model.NumberData;
 import com.example.naci.retrofitsample.ui.adapters.AdapterNumberData;
+import com.example.naci.retrofitsample.ui.base.BaseFragment;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends BaseFragment<MainFragmentBinding> {
 
     @BindView(R.id.mainFragment_rvNumberData)
     RecyclerView rvNumberData;
 
     private MainViewModel mViewModel;
-    private ProgressDialog progressDialog;
     private AdapterNumberData adapterNumberData;
 
     public static MainFragment newInstance() {
         return new MainFragment();
     }
 
+    @Override
+    protected int getLayoutResID() {
+        return R.layout.main_fragment;
+    }
+
+    @Override
+    protected boolean shouldUseButterKnife() {
+        return true;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_fragment, container, false);
+        return super.onCreateView(inflater, container, savedInstanceState);
+        /*View view = inflater.inflate(R.layout.main_fragment, container, false);
         ButterKnife.bind(this, view);
-        return view;
+        return view;*/
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        // TODO: Use the ViewModel
+        setLiveDataObserver();
     }
 
     @Override
@@ -67,7 +71,7 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.mainFragment_btnFetchNumberData)
     public void onFetchClicked() {
-        getRandomNumberDataRequest();
+        mViewModel.getNumberDataRequest();
     }
 
     public void prepareRecyclerView() {
@@ -78,26 +82,23 @@ public class MainFragment extends Fragment {
         rvNumberData.setAdapter(adapterNumberData);
     }
 
-    public void getRandomNumberDataRequest() {
-
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Loading....");
-        progressDialog.show();
-
-        NumberDataService service = App.getRetrofitInstance().create(NumberDataService.class);
-        Call<NumberData> call = service.getRandonNumberData();
-        call.enqueue(new Callback<NumberData>() {
-            @Override
-            public void onResponse(Call<NumberData> call, Response<NumberData> response) {
-                progressDialog.dismiss();
-                if (response.body() != null) {
-                    setAdapter(response.body());
-                }
+    private void setLiveDataObserver() {
+        mViewModel.showProgress.observe(this, isSHow -> {
+            if (isSHow == null) {
+                return;
             }
 
-            @Override
-            public void onFailure(Call<NumberData> call, Throwable t) {
-                progressDialog.dismiss();
+            if (isSHow) {
+                showProgressDialog();
+            } else {
+                hideProgressDialog();
+            }
+        });
+
+        mViewModel.numberDataResponse.observe(this, object -> {
+            if (object instanceof NumberData) {
+                setAdapter((NumberData) object);
+            } else if (object instanceof Throwable) {
                 Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });

@@ -1,5 +1,6 @@
 package com.example.naci.retrofitsample.ui.main;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.naci.retrofitsample.App;
@@ -11,21 +12,27 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
+    public final MutableLiveData<Object> numberDataResponse = new MutableLiveData<>();
+    public final MutableLiveData<Boolean> showProgress = new MutableLiveData<>();
 
 
     void getNumberDataRequest() {
+        showProgress.setValue(true);
         NumberDataService service = App.getRetrofitInstance().create(NumberDataService.class);
         Call<NumberData> call = service.getRandonNumberData();
         call.enqueue(new Callback<NumberData>() {
             @Override
             public void onResponse(Call<NumberData> call, Response<NumberData> response) {
-
+                if (response.body() != null) {
+                    numberDataResponse.setValue(response.body());
+                }
+                showProgress.setValue(false);
             }
 
             @Override
             public void onFailure(Call<NumberData> call, Throwable t) {
-
+                numberDataResponse.setValue(t);
+                showProgress.setValue(false);
             }
         });
     }

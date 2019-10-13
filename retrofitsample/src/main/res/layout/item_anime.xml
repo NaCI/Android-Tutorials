@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/itemAnime_imgPoster"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:src="@{item.detail.posterData.mediumImage}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/itemAnime_imgPoster"
+            android:alpha="0.8"
+            android:background="@android:color/darker_gray"
+            android:orientation="vertical"
+            android:onClick="@{() -> listener.onAnimeDetailClicked(item)}"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/itemAnime_tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{item.detail.title}"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textStyle="bold"
+                tools:text="42" />
+
+            <TextView
+                android:id="@+id/itemAnime_tvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="6"
+                android:text="@{item.detail.description}"
+                android:textStyle="italic"
+                tools:text="Perfect Number" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.naci.retrofitsample.network.model.AnimeData" />
+
+        <variable
+            name="listener"
+            type="com.example.naci.retrofitsample.listeners.OnAnimeItemClickListener" />
+    </data>
+</layout>
