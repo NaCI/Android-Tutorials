@@ -19,7 +19,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/animeFragment_tilAnimeGenre" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/animeFragment_tilAnimeGenre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,9 +38,9 @@
                 android:hint="Anime Tipi Giriniz (Örn: adventure)"
                 android:gravity="center_horizontal"
                 android:text="@={pageData.animeGenre}" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/animeFragment_rvAnimeList"
             android:layout_width="0dp"
             android:layout_height="0dp"

@@ -1,7 +1,7 @@
 package com.example.naci.retrofitsample.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.naci.retrofitsample.R;
 import com.example.naci.retrofitsample.ui.main.MainFragment;

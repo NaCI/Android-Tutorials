@@ -1,7 +1,7 @@
 package com.example.naci.retrofitsample;
 
 import android.app.Application;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

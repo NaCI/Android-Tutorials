@@ -1,7 +1,7 @@
 package com.example.naci.retrofitsample.ui.anime;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import android.text.TextUtils;
 
 import com.example.naci.retrofitsample.App;
