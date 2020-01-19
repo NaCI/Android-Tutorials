@@ -3,15 +3,21 @@ package com.naci.daggerditutorial.ui.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment {
 
-    private final String TAG = getClass().getName();
+    private final String TAG = getClass().getSimpleName();
 
     @LayoutRes
     protected abstract int getLayoutResID();
@@ -20,6 +26,25 @@ public abstract class BaseFragment extends Fragment {
 
     public BaseFragment() {
         // Required empty public constructor
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.wtf("Fragment Created", String.format("Class Name : %s", TAG));
+
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.wtf("Fragment Destroyed", String.format("Class Name : %s", TAG));
+        super.onDestroy();
     }
 
     /*@Override
