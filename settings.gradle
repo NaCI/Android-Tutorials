@@ -1,1 +1,1 @@
-include ':daggertutorial_1', ':vasiliyDI', ':retrofitsample', ':fragmenttest', ':manual_di_tutorial', ':daggerditutorial'
+include ':daggertutorial_1', ':vasiliyDI', ':retrofitsample', ':fragmenttest', ':manual_di_tutorial', ':daggerditutorial', ':codingwithmitchdaggersample'

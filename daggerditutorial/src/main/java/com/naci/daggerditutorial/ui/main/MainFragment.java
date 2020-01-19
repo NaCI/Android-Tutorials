@@ -27,7 +27,7 @@ public class MainFragment extends BaseFragment {
     private Button button;
 
 
-    public static MainFragment newInstance() {
+    static MainFragment newInstance() {
         return new MainFragment();
     }
 
@@ -91,7 +91,7 @@ public class MainFragment extends BaseFragment {
                 NumberData numberData = (NumberData) object;
                 Toast.makeText(getContext(), numberData.toString(), Toast.LENGTH_LONG).show();
             } else if (object instanceof Throwable) {
-                Toast.makeText(getActivity(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
