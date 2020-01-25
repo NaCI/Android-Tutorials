@@ -39,7 +39,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         if (getActivity() != null && getActivity().getApplication() != null) {
-            ((MyApplication) getActivity().getApplication()).applicationComponent.inject(MainFragment.this);
+            MyApplication.getInstance().getAppComponent().inject(MainFragment.this);
         }
         super.onAttach(context);
     }

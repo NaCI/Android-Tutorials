@@ -1,12 +1,22 @@
 package com.naci.daggerditutorial.di.module;
 
-import com.naci.daggerditutorial.Constants;
+import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.naci.daggerditutorial.data.remote.LoginRetrofitService;
 
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -16,8 +26,47 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
-    @Singleton
+    String mBaseUrl;
+
+    // Constructor needs one parameter to instantiate.
+    public NetworkModule(String baseUrl) {
+        this.mBaseUrl = baseUrl;
+    }
+
+    // Dagger will only look for methods annotated with @Provides
     @Provides
+    @Singleton
+    // Application reference must come from AppModule.class
+    SharedPreferences providesSharedPreferences(Application application) {
+        return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @Singleton
+    Cache provideOkHttpCache(Application application) {
+        int cacheSize = 10 * 1024 * 1024; // 10 MiB
+        Cache cache = new Cache(application.getCacheDir(), cacheSize);
+        return cache;
+    }
+
+    @Provides
+    @Singleton
+    Gson provideGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+        return gsonBuilder.create();
+    }
+
+    @Provides @Named("cached")
+    @Singleton
+    OkHttpClient provideOkHttpClientCached(Cache cache) {
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.cache(cache);
+        return httpClient.build();
+    }
+
+    @Provides @Named("non_cached")
+    @Singleton
     public OkHttpClient provideOkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 
@@ -29,6 +78,10 @@ public class NetworkModule {
 
         // add logging as last interceptor
         httpClient.addInterceptor(logging);  // <-- this is the important line!
+        // set connection timeout
+        httpClient.connectTimeout(60, TimeUnit.SECONDS);
+        httpClient.readTimeout(60, TimeUnit.SECONDS);
+        httpClient.writeTimeout(60, TimeUnit.SECONDS);
         return httpClient.build();
     }
 
@@ -37,14 +90,18 @@ public class NetworkModule {
     // Function parameters are the dependencies of this type.
     @Singleton
     @Provides
-    public LoginRetrofitService provideLoginRetrofitService(OkHttpClient okHttpClient) {
+    public Retrofit provideRetrofit(Gson gson, @Named("non_cached") OkHttpClient okHttpClient) {
         // Whenever Dagger needs to provide an instance of type LoginRetrofitService,
         // this code (the one inside the @Provides method) is run.
         return new Retrofit.Builder()
-                .baseUrl(Constants.NUMBER_DATA_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(mBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
-                .build()
-                .create(LoginRetrofitService.class);
+                .build();
+    }
+
+    @Provides
+    public LoginRetrofitService provideLoginRetrofitService(Retrofit retrofit) {
+        return retrofit.create(LoginRetrofitService.class);
     }
 }

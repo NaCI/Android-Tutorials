@@ -35,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * for event
      *//*
-
+BaseActivity
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Screen_Name_" + screenName);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, screenName);

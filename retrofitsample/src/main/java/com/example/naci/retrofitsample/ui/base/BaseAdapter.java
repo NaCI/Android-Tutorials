@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.android.databinding.library.baseAdapters.BR;
+import androidx.databinding.library.baseAdapters.BR;
 import com.example.naci.retrofitsample.listeners.BaseItemClickListener;
 
 public abstract class BaseAdapter extends RecyclerView.Adapter<BaseAdapter.MyViewHolder> {

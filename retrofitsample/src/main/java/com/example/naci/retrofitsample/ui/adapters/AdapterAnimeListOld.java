@@ -3,11 +3,11 @@ package com.example.naci.retrofitsample.ui.adapters;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.annotation.NonNull;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.example.naci.retrofitsample.R;
 import com.example.naci.retrofitsample.network.model.AnimeData;
 
