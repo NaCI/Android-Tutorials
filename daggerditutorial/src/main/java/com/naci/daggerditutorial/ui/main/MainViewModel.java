@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.naci.daggerditutorial.MyApplication;
 import com.naci.daggerditutorial.R;
+import com.naci.daggerditutorial.SingleLiveEvent;
 import com.naci.daggerditutorial.data.UserRepository;
 import com.naci.daggerditutorial.data.remote.model.NumberData;
 
@@ -16,7 +17,8 @@ import retrofit2.Response;
 
 public class MainViewModel extends ViewModel {
     private final UserRepository userRepository;
-    public MutableLiveData<Object> numberDataResponse = new MutableLiveData<>();
+    //Triggers only once
+    public SingleLiveEvent<Object> numberDataResponse = new SingleLiveEvent<>();
     public MutableLiveData<Boolean> showProgress = new MutableLiveData<>();
 
     @Inject
