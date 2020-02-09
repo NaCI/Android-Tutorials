@@ -21,5 +21,7 @@ import dagger.Component;
 public interface ApplicationComponent {
     void inject(MainActivity mainActivity);
 
-    void inject(MainFragment mainFragment);
+//    void inject(MainFragment mainFragment);
+
+    MainComponent.Builder mainComponentBuilder();
 }

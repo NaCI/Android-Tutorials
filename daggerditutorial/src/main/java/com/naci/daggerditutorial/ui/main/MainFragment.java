@@ -2,6 +2,7 @@ package com.naci.daggerditutorial.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,18 @@ import com.naci.daggerditutorial.ui.ViewModelFactory;
 import com.naci.daggerditutorial.ui.base.BaseFragment;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class MainFragment extends BaseFragment {
 
+    private static final String TAG = MainFragment.class.getSimpleName();
+
     @Inject
     ViewModelFactory viewModelFactory;
+
+    @Inject
+    @Named("FirstModule")
+    String firstModuleString;
 
     private MainViewModel mainViewModel;
     private Button button;
@@ -41,7 +49,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         if (getActivity() != null && getActivity().getApplication() != null) {
-            MyApplication.getInstance().getAppComponent().inject(MainFragment.this);
+            MyApplication.getInstance().getMainComponent().inject(MainFragment.this);
         }
         super.onAttach(context);
     }
@@ -52,6 +60,7 @@ public class MainFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
         button = view.findViewById(R.id.button);
+        Log.d(TAG, "onCreateView: firstModuleString "+firstModuleString);
         return view;
     }
 
@@ -59,7 +68,6 @@ public class MainFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mainViewModel = new ViewModelProvider(this, viewModelFactory).get(MainViewModel.class);
-        // TODO: Use the ViewModel
         String appName = mainViewModel.getAppName();
         Toast.makeText(getContext(), appName, Toast.LENGTH_SHORT).show();
         setLiveDataObserver();
@@ -92,5 +100,11 @@ public class MainFragment extends BaseFragment {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onDetach() {
+        MyApplication.getInstance().clearMainComponent();
+        super.onDetach();
     }
 }
