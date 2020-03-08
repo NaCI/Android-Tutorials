@@ -21,6 +21,11 @@ public class MainViewModel extends ViewModel {
     public SingleLiveEvent<Object> numberDataResponse = new SingleLiveEvent<>();
     public MutableLiveData<Boolean> showProgress = new MutableLiveData<>();
 
+    /*
+        Constructor'a müdahale edemediğimiz (Activity, Fragment gibi) sınıflar dışında
+        property injection yerine constructor injection kullanılmalı. Performans ve test için.
+     */
+
     @Inject
     public MainViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;

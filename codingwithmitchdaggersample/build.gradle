@@ -4,6 +4,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.naci.codingwithmitchdaggersample"
@@ -29,6 +33,10 @@ ext {
     androidX_version = '1.1.0'
     glide_version = '4.11.0'
     lifecycle_version = '2.2.0'
+    retrofitVersion = '2.6.1'
+    rx_java_version = '3.0.0'
+    rx_call_adapter_version = '2.5.0'
+    reactive_streams_version = '1.1.1'
 }
 
 dependencies {
@@ -53,4 +61,17 @@ dependencies {
     //GLIDE
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    //RETROFIT
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    //RxJava
+    implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
+
+    //Rx-Retrofit Call Adapter
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rx_call_adapter_version"
+
+    //Reactive Streams
+    implementation "android.arch.lifecycle:reactivestreams:$reactive_streams_version"
 }
