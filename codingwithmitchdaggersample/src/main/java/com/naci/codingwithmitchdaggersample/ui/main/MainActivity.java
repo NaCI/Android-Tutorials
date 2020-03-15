@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import com.naci.codingwithmitchdaggersample.BaseActivity;
 import com.naci.codingwithmitchdaggersample.R;
 import com.naci.codingwithmitchdaggersample.SessionManager;
+import com.naci.codingwithmitchdaggersample.ui.main.posts.PostsFragment;
+import com.naci.codingwithmitchdaggersample.ui.main.profile.ProfileFragment;
 
 import javax.inject.Inject;
 
@@ -25,6 +27,12 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        testFragment();
+    }
+
+    private void testFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new PostsFragment()).commit();
     }
 
     @Override
