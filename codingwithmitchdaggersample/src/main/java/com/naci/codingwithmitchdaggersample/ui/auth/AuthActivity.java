@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.naci.codingwithmitchdaggersample.R;
+import com.naci.codingwithmitchdaggersample.models.User;
 import com.naci.codingwithmitchdaggersample.ui.main.MainActivity;
 import com.naci.codingwithmitchdaggersample.viewmodels.ViewModelProviderFactory;
 
@@ -48,6 +49,8 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     @Inject
     RequestManager requestManager;
 
+    @Inject
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
         Log.d(TAG, "onCreate: myBaseUrl : " + myBaseUrl);
         Log.d(TAG, "onCreate: isAppNull : " + isAppNull);
+        Log.d(TAG, "onCreate: User : " + user);
 
         authViewModel = new ViewModelProvider(this, viewModelProviderFactory).get(AuthViewModel.class);
 
