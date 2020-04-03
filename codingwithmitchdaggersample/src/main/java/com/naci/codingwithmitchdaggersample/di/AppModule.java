@@ -22,8 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class AppModule {
 
-    //TODO: retrofit instance, glide instance // other singleton objects could be declared here
+    // TODO EXPLANATION: retrofit instance, glide instance // other singleton objects could be declared here
 
+    // TODO EXPLANATION: USING STATIC PROVIDERS IS MORE EFFICIENT
     @Singleton
     @Provides
     static String baseUrl() {

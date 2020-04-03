@@ -18,7 +18,7 @@ public class AuthModule {
 
     @AuthScope
     @Provides
-    User provideUser() {
+    static User provideUser() {
         return new User();
     }
 
